@@ -36,7 +36,7 @@ class App extends Component {
 
 export default App; */
 
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { HomePage } from './pages/homepage/homepage.component';
@@ -47,10 +47,12 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
+  // let unsubscribeFromAuth = useRef(null);
 
   let unsubscribeFromAuth = null;
 
   useEffect(() => {
+    // eslint-disable-next-line
     unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
@@ -68,7 +70,6 @@ const App = () => {
       return () => unsubscribeFromAuth();
     }); // eslint-disable-next-line
   }, []);
-  console.log(currentUser);
 
   return (
     <Router>
