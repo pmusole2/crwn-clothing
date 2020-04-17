@@ -1,42 +1,4 @@
-/* import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
-import { HomePage } from './pages/homepage/homepage.component';
-import ShopPage from './pages/shop/shop.component';
-import Header from './components/header-component/header.component';
-import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-
-class App extends Component {
-  state = {
-    currentUser: null,
-  };
-
-  unsubscribeFromAuth = null;
-
-  componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
-      createUserProfileDocument(user);
-    });
-  }
-
-  render() {
-    return (
-      <Router>
-        <Header currentUser={this.state.currentUser} />
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='/shop' component={ShopPage} />
-          <Route path='/signin' component={SignInAndSignUp} />
-        </Switch>
-      </Router>
-    );
-  }
-}
-
-export default App; */
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -51,11 +13,10 @@ import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.com
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
+import { selectCurrectUser } from './redux/user/user.selector';
+import { createStructuredSelector } from 'reselect';
 
 const App = ({ setCurrentUser, currentUser }) => {
-  //const [currentUser, setCurrentUser] = useState(null);
-  // let unsubscribeFromAuth = useRef(null);
-
   let unsubscribeFromAuth = null;
 
   useEffect(() => {
@@ -100,8 +61,46 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrectUser,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+/* import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.css';
+import { HomePage } from './pages/homepage/homepage.component';
+import ShopPage from './pages/shop/shop.component';
+import Header from './components/header-component/header.component';
+import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+
+class App extends Component {
+  state = {
+    currentUser: null,
+  };
+
+  unsubscribeFromAuth = null;
+
+  componentDidMount() {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
+      createUserProfileDocument(user);
+    });
+  }
+
+  render() {
+    return (
+      <Router>
+        <Header currentUser={this.state.currentUser} />
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route path='/shop' component={ShopPage} />
+          <Route path='/signin' component={SignInAndSignUp} />
+        </Switch>
+      </Router>
+    );
+  }
+}
+
+export default App; */
